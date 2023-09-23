@@ -1,61 +1,39 @@
 package com.example.flight.flight.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.util.RouteMatcher;
+
+import java.util.List;
 
 @Entity
 @Table(name="airports" )
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Airports {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="airport_code")
+    @OneToMany(mappedBy = "source", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Routes> source_airport;
+
+    @OneToMany(mappedBy = "destination", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Routes> destination_airport;
+
     public int code;
-    @Column(name = "airport_city")
+
     private String city;
-    @Column(name="airport_country")
+
     private String country;
 
-    public Airports() {
-        super();
-    }
-
-    public Airports(int code, String city, String country) {
-        this.code = code;
-        this.city = city;
-        this.country = country;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/")
 public class AirportsController {
 
-    @Autowired
+    @Autowired //dependency injection olması durumunda kullanılır. araştır.
     private AirportsRepository airportsRepository;
 
     //get airports
