@@ -16,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
+@CrossOrigin("*") //gelen her isteği karşıla.
 public class AirportsController {
 
     @Autowired //dependency injection olması durumunda kullanılır. araştır.
@@ -42,19 +43,19 @@ public class AirportsController {
     }
     //update airport
 
-    @PutMapping("airports/{id}")
-    public ResponseEntity<Airports> updateAirports(@PathVariable(value = "id") Long airportId,
-                                                   @Validated @RequestBody Airports airportsDetails) throws ResourceNotFoundException {
+        @PutMapping("airports/{id}")
+        public ResponseEntity<Airports> updateAirports(@PathVariable(value = "id") Long airportId,
+                                                       @Validated @RequestBody Airports airportsDetails) throws ResourceNotFoundException {
 
-        Airports airports = airportsRepository.findById(airportId)
-                .orElseThrow(() -> new ResourceNotFoundException("Airport not found for this id :" + airportId));
+            Airports airports = airportsRepository.findById(airportId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Airport not found for this id :" + airportId));
 
-        airports.setCode(airportsDetails.getCode());
-        airports.setCity(airportsDetails.getCity());
-        airports.setCountry(airportsDetails.getCountry());
+            airports.setCode(airportsDetails.getCode());
+            airports.setCity(airportsDetails.getCity());
+            airports.setCountry(airportsDetails.getCountry());
 
-        return ResponseEntity.ok(this.airportsRepository.save(airports));
-    }
+            return ResponseEntity.ok(this.airportsRepository.save(airports));
+        }
     //delete airport
 
     @DeleteMapping("airports/{id}")
