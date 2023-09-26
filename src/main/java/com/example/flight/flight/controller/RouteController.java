@@ -16,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
+@CrossOrigin("*")
 public class RouteController {
 
     @Autowired
@@ -37,20 +38,6 @@ public class RouteController {
     }
 
 
-    //save routes
-    @PostMapping("routes")
-    public Routes createRoutes(@RequestBody Routes routes) {
-        return this.routeRepository.save(routes);
-    }
-
-    //update routes
-    @PutMapping("routes/{id}")
-    public ResponseEntity<Routes> updateRoutes(@PathVariable(value= "id") Long routesId,
-                                               @Validated @RequestBody Routes routesDetails) throws ResourceNotFoundException {
-        Routes routes = routeRepository.findById(routesId)
-                .orElseThrow(() -> new ResourceNotFoundException("Route not found for this id : " + routesId));
-        return ResponseEntity.ok().body(routes);
-    }
 
     //delete route
     @DeleteMapping("routes/{id}")
@@ -67,8 +54,9 @@ public class RouteController {
         return response;
     }
 
+    //create routes
     @PostMapping("routes/{source_id}/{destination_id}")
-    public ResponseEntity<Routes> updateRoutes(@PathVariable(value= "source_id") Long sourceId, @PathVariable(value = "destination_id") Long destinationId,
+    public ResponseEntity<Routes> createRoutes(@PathVariable(value= "source_id") Long sourceId, @PathVariable(value = "destination_id") Long destinationId,
                                                @Validated @RequestBody Routes routesDetails) throws ResourceNotFoundException {
         Airports sourceAirport = airportsRepository.findById(sourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Source Route not found for this id :" + sourceId));
@@ -81,5 +69,20 @@ public class RouteController {
         routes = routeRepository.save(routes);
         return ResponseEntity.ok().body(routes);
     }
+
+    @PutMapping("routes/{source_id}/{destination_id}")
+    public ResponseEntity<Routes> updateRoutes(@PathVariable(value= "source_id") Long sourceId, @PathVariable(value = "destination_id") Long destinationId,
+                                               @Validated @RequestBody Routes routesDetails) throws ResourceNotFoundException {
+        Airports sourceAirport = airportsRepository.findById(sourceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Source Route not found for this id :" + sourceId));
+        Airports destinationAirport = airportsRepository.findById(destinationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Destination Route not found for this id :" + destinationId));
+        routesDetails.setDestination(destinationAirport);
+        routesDetails.setSource(sourceAirport);
+        routesDetails.setDistance(routesDetails.getDistance());
+        routesDetails = routeRepository.save(routesDetails);
+        return ResponseEntity.ok().body(routesDetails);
+    }
+
 
 }

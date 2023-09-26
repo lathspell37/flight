@@ -10,11 +10,11 @@ public class Routes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL) //Cascade, Airports tablosunda değişiklik olursa, Routes da etkileniyor.
+    @ManyToOne //Cascade, Airports tablosunda değişiklik olursa, Routes da etkileniyor.
     @JoinColumn(name = "source_id", referencedColumnName = "id")
     private Airports source;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "destination_id", referencedColumnName = "id")
     private Airports destination;
 
