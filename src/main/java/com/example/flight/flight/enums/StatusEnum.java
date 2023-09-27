@@ -6,6 +6,6 @@ public enum StatusEnum {
     Departed,
     Arrived
 
-    //PRIMITIVE DURUN. JPA ÇÖPÜ BUNLAR DIŞINDA BİR ŞEY GÖRÜRSE CMS ÖNÜ ARKAYI DAĞITIR.
+    //JPA BUNLAR DIŞINDA BİR GİRDİ GÖRÜRSE UYGULAMAYI PATLATIR.
 
 }

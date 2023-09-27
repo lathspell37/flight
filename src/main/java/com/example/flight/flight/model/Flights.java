@@ -1,22 +1,21 @@
 package com.example.flight.flight.model;
 
 import com.example.flight.flight.enums.StatusEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="flights")
+@Table(name = "flights")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-//LOMBOK mucizesi, getter setter, constructorları annotation olarak tanımlamamızı sağlıyor. refactor - delombok ile açabiliriz
+//LOMBOK, getter setter, constructorları annotation olarak tanımlamamızı sağlıyor. refactor - delombok ile açabiliriz
 public class Flights {
 
     @Id
@@ -25,14 +24,15 @@ public class Flights {
 
     private String flightNumber;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Routes route;
 
     private double price;
-
-    private Date departureTime;
-
-    private Date arrivalTime;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime departureTime;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime arrivalTime;
 
     private int capacity;
 

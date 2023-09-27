@@ -1,12 +1,10 @@
 package com.example.flight.flight.controller;
 
 import com.example.flight.flight.exception.ResourceNotFoundException;
-import com.example.flight.flight.model.Airports;
 import com.example.flight.flight.model.Flights;
 import com.example.flight.flight.model.Routes;
 import com.example.flight.flight.repository.FlightRepository;
 import com.example.flight.flight.repository.RouteRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
+@CrossOrigin("*")
 public class FlightController {
     @Autowired
     private FlightRepository flightRepository;
@@ -48,7 +47,7 @@ public class FlightController {
     }
 
     //update flight
-    @PutMapping("flight/{id}")
+    @PutMapping("/flight/{id}/{route_id}")
     public ResponseEntity<Flights> updateFlights(@PathVariable(value = "id") Long flightId, @PathVariable(value = "route_id") Long routeId,
                                                    @Validated @RequestBody Flights flightDetails) throws ResourceNotFoundException {
 
